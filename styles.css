@@ -1,0 +1,253 @@
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — gray claymorphism
+═══════════════════════════════════════════════ */
+:root {
+  /* palette */
+  --bg:       #000000;       /* black page bg       */
+  --surface:  #0E0E0E;       /* card surface        */
+  --white:    #161616;       /* raised element      */
+  --ink:      #F0F0F0;       /* primary text        */
+  --ink-2:    #A0A0A0;       /* secondary text      */
+  --ink-3:    #555555;       /* muted text          */
+  --red:      #E84040;       /* record accent       */
+  --red-hi:   #FF6B6B;
+  --green:    #2ECC71;       /* ok state            */
+  --warn:     #F5A623;       /* warn state          */
+
+  /* dark shadows */
+  --clay-up:
+    -1px -1px 1px rgba(255,255,255,0.04),
+     6px  8px 20px rgba(0,0,0,0.7);
+  --clay-in:
+    inset  3px  3px 8px rgba(0,0,0,0.6),
+    inset -1px -1px 4px rgba(255,255,255,0.04);
+  --clay-sm:
+    -1px -1px 1px rgba(255,255,255,0.03),
+     4px  5px 12px rgba(0,0,0,0.65);
+}
+
+/* ═══════════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: grid;
+  place-items: start center;
+}
+
+/* ═══════════════════════════════════════════════
+   SCREEN WRAPPER
+═══════════════════════════════════════════════ */
+.screen {
+  width: min(420px, 96vw);
+  padding: 32px 22px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   HERO — moon-textured title
+═══════════════════════════════════════════════ */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.moon-title {
+  font-size: clamp(4.2rem, 18vw, 6.8rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+
+  /* ── moon surface: grain + craters + lunar gradient ── */
+  background:
+    /* rocky grain via SVG turbulence data URI */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    /* sunlit crescent top-left */
+    radial-gradient(ellipse 72% 60% at 26% 18%, rgba(255,255,255,0.48) 0%, transparent 62%),
+    /* large dark mare (lunar sea) bottom-right */
+    radial-gradient(ellipse 58% 46% at 76% 82%, rgba(6,6,6,0.62) 0%, transparent 72%),
+    /* crater A */
+    radial-gradient(circle at 15% 62%, rgba(18,18,16,0.42) 0%, transparent 16%),
+    /* crater B */
+    radial-gradient(circle at 82% 28%, rgba(22,22,20,0.32) 0%, transparent 12%),
+    /* crater C */
+    radial-gradient(circle at 52% 58%, rgba(14,14,12,0.36) 0%, transparent 9%),
+    /* crater D — small */
+    radial-gradient(circle at 38% 30%, rgba(20,20,18,0.22) 0%, transparent 7%),
+    /* base lunar gradient (bright silver → charcoal) */
+    linear-gradient(
+      128deg,
+      #f4f2ee  0%,
+      #dddbd5 14%,
+      #bdbbb5 30%,
+      #9d9b95 46%,
+      #7d7b75 61%,
+      #5d5b55 75%,
+      #3d3b35 88%,
+      #201e1a 100%
+    );
+
+  background-blend-mode: soft-light, normal, normal, normal, normal, normal, normal, normal;
+  background-size: 220px 220px, auto, auto, auto, auto, auto, auto, auto;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+/* ═══════════════════════════════════════════════
+   RADIAL VISUALIZER
+═══════════════════════════════════════════════ */
+.viz-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#vizCanvas {
+  display: block;
+  width: 320px;
+  height: 320px;
+}
+
+.wave-hint {
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #4a4a4a;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: fadeUp 600ms ease 900ms forwards;
+}
+
+@keyframes fadeUp {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════
+   MIC BUTTON
+═══════════════════════════════════════════════ */
+.mic-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 600ms ease 1100ms forwards;
+}
+
+.mic-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #1c1c1c;
+  color: #c8c8c8;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 150ms ease, transform 120ms ease, color 150ms ease;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+}
+
+.mic-btn:hover {
+  background: #272727;
+  color: #fff;
+  transform: scale(1.06);
+}
+
+.mic-btn:active {
+  transform: scale(0.94);
+}
+
+.mic-btn.listening {
+  background: #2a2a2a;
+  color: #fff;
+  animation: micPulse 1s ease-in-out infinite;
+}
+
+.mic-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #3e3e3e;
+  letter-spacing: 0.06em;
+}
+
+.type-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 6px;
+  opacity: 0;
+  animation: fadeUp 600ms ease 1200ms forwards;
+}
+
+.type-row input {
+  flex: 1;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 0.88rem;
+  color: #e0e0e0;
+  background: #141414;
+  outline: none;
+}
+
+.type-row input::placeholder {
+  color: #555;
+}
+
+.type-row input:focus {
+  border-color: #444;
+}
+
+.send-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: #333;
+  cursor: pointer;
+  transition: background 150ms, transform 120ms;
+}
+
+.send-btn:hover {
+  background: #444;
+  transform: translateY(-1px);
+}
+
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+  50%       { box-shadow: 0 4px 28px rgba(255,255,255,0.08); }
+}
+
+
+
+/* ═══════════════════════════════════════════════
+   STATUS COLOUR HELPERS
+═══════════════════════════════════════════════ */
+.state-ok   { color: var(--green) !important; }
+.state-warn { color: var(--warn)  !important; }
+
+/* ═══════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════ */
+
+
