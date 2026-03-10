@@ -40,12 +40,12 @@ This project includes a v2 animated UI plus a Python backend that maps commands 
 4. Open:
 
    ```text
-   http://127.0.0.1:5500
+   http://127.0.0.1:5000
    ```
 
 ## Notes
 
 - **Push button**: hold the mic button while speaking, then release. The server transcribes and runs the command (works in Arc).
 - If the server says "Install SpeechRecognition pydub", run `pip install -r requirements.txt` and install ffmpeg.
-- If the mic is blocked, allow microphone access for `http://127.0.0.1:5500` in your browser.
+- If the mic is blocked, allow microphone access for `http://127.0.0.1:5000` in your browser.
 - Ollama: ensure `ollama serve` is running and the model is pulled.

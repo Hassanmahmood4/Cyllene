@@ -9,7 +9,7 @@ from urllib.parse import quote_plus
 from urllib.request import Request, urlopen
 
 HOST = "127.0.0.1"
-PORT = 5500
+PORT = 5000
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 OLLAMA_MODEL = "llama3.1"
 

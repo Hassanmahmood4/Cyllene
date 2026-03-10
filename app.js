@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const isNetwork = err.message === "Failed to fetch" || err.name === "TypeError";
       setHint(
         isNetwork
-          ? "Network error — open this page at http://127.0.0.1:5500 and run: python3 assistant_server.py"
+          ? "Network error — open this page at http://127.0.0.1:5000 and run: python3 assistant_server.py"
           : "Backend error — run: python3 assistant_server.py"
       );
       setVizState("idle");
